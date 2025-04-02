@@ -1,14 +1,31 @@
-from fastapi import FastAPI
-from pydantic import BaseModel
+import React, { useState } from "react";
 
-app = FastAPI()
+function CalculatorApp() {
+  const [principal, setPrincipal] = useState("");
+  const [rate, setRate] = useState("");
+  const [years, setYears] = useState("");
+  const [result, setResult] = useState(null);
 
-class InterestRequest(BaseModel):
-    principal: float
-    rate: float
-    years: int
+  const calculateInterest = async () => {
+    const response = await fetch("https://your-backend.onrender.com/calculate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ principal: parseFloat(principal), rate: parseFloat(rate), years: parseInt(years) }),
+    });
+    const data = await response.json();
+    setResult(data.total);
+  };
 
-@app.post("/calculate")
-def calculate_interest(request: InterestRequest):
-    total = request.principal * (1 + request.rate / 100) ** request.years
-    return {"total": round(total, 2)}
+  return (
+    <div style={{ padding: "20px", maxWidth: "400px", margin: "auto", textAlign: "center" }}>
+      <h2>Compound Interest Calculator</h2>
+      <input type="number" value={principal} onChange={e => setPrincipal(e.target.value)} placeholder="Principal" />
+      <input type="number" value={rate} onChange={e => setRate(e.target.value)} placeholder="Rate (%)" />
+      <input type="number" value={years} onChange={e => setYears(e.target.value)} placeholder="Years" />
+      <button onClick={calculateInterest}>Calculate</button>
+      {result && <h3>Total: ${result}</h3>}
+    </div>
+  );
+}
+
+export default CalculatorApp;
