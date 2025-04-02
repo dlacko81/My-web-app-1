@@ -14,4 +14,4 @@ class InterestRequest(BaseModel):
 def calculate_interest(request: InterestRequest):
     # Formula for compound interest
     total = request.principal * (1 + request.rate / 100) ** request.years
-    return {"total": round(total,
+    return {"total": round(total,2)}
