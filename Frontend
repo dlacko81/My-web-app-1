@@ -1,0 +1,14 @@
+from fastapi import FastAPI
+from pydantic import BaseModel
+
+app = FastAPI()
+
+class InterestRequest(BaseModel):
+    principal: float
+    rate: float
+    years: int
+
+@app.post("/calculate")
+def calculate_interest(request: InterestRequest):
+    total = request.principal * (1 + request.rate / 100) ** request.years
+    return {"total": round(total, 2)}
