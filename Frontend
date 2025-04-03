@@ -7,7 +7,7 @@ function CalculatorApp() {
   const [result, setResult] = useState(null);
 
   const calculateInterest = async () => {
-    const response = await fetch("https://my-web-app-1-ve8c-git-main-dlacko81s-projects.vercel.app", {
+    const response = await fetch("https://my-web-app-1-s5gj.onrender.com", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ principal: parseFloat(principal), rate: parseFloat(rate), years: parseInt(years) }),
